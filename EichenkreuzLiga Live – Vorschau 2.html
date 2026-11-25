@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="de" data-theme="dark"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EichenkreuzLiga Live</title>
+<style>
+:root{--bg:#f4f6f2;--card:#fff;--el:#e9ede6;--tx:#101312;--mu:#5c665f;--ac:#7a9400;--acfg:#fff;--bd:#0000001a;--red:#d63a3a;--ye:#b8860b;--ok:#1f9d55;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#080A0A;--card:#151A19;--el:#1B211F;--tx:#F5F7F3;--mu:#A0AAA3;--ac:#D7FF36;--acfg:#080A0A;--bd:#ffffff14;--red:#FF5252;--ye:#FFCA45;--ok:#4ADE80;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 -apple-system,"SF Pro Text",Inter,system-ui,"Segoe UI",sans-serif}
+.w{max-width:760px;margin:0 auto;padding:12px 14px 40px}
+header{display:flex;justify-content:space-between;align-items:center;padding:6px 0 10px}
+h1{font-size:15px;letter-spacing:.12em;margin:0;font-weight:800}h1 b{color:var(--ac)}
+nav{display:flex;gap:6px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;overflow-x:auto}
+nav button,.chip{border:1px solid var(--bd);background:var(--card);color:var(--mu);border-radius:999px;padding:8px 14px;font:600 14px inherit;cursor:pointer;white-space:nowrap}
+nav button.on,.chip.on{background:var(--ac);color:var(--acfg);border-color:var(--ac)}
+h2{font-size:12px;letter-spacing:.14em;color:var(--mu);margin:22px 0 8px;font-weight:700}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin:10px 0;transition:transform .15s,border-color .15s}
+.card.k{cursor:pointer}.card.k:hover{transform:translateY(-2px);border-color:var(--ac)}
+.r{display:flex;align-items:center;justify-content:space-between;gap:10px}.t{flex:1;font-weight:700;min-width:0}.t.a{text-align:right}
+.sc{font-size:34px;font-weight:800;font-variant-numeric:tabular-nums;min-width:96px;text-align:center}
+.sc.pop{animation:pop .7s}@keyframes pop{30%{transform:scale(1.25);color:var(--ac);text-shadow:0 0 18px var(--ac)}}
+.mu{color:var(--mu);font-size:13px}.live{color:var(--ac);font-weight:800;font-size:13px}.live:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:6px;animation:pl 1.4s infinite}
+@keyframes pl{50%{opacity:.25}}.demo{border:1px solid var(--ye);color:var(--ye);border-radius:6px;padding:0 6px;font-size:11px;margin-left:6px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}th,td{padding:9px 6px;text-align:center;border-bottom:1px solid var(--bd)}th{color:var(--mu);font-size:12px}td:nth-child(2),th:nth-child(2){text-align:left;font-weight:600}
+.tl{position:relative;margin:8px 0}.ev{display:grid;grid-template-columns:1fr 54px 1fr;gap:8px;align-items:center;padding:8px 0}
+.ev .m{text-align:center;font-weight:800;color:var(--ac);font-size:13px}.ev .b{background:var(--el);border-radius:12px;padding:8px 10px;font-size:14px}.ev.g .b{border:1px solid var(--ac)}.ev.rd .b{border:1px solid var(--red)}
+.ev .l{text-align:right}.bar{display:grid;grid-template-columns:30px 1fr 30px;gap:8px;align-items:center;margin:8px 0;font-size:13px;text-align:center}
+.bar i{display:block;height:6px;border-radius:3px;background:var(--el);position:relative;overflow:hidden}.bar i b{position:absolute;inset:0 auto 0 0;background:var(--ac);transition:width .5s}
+.btn{border:0;border-radius:14px;padding:14px 12px;font:700 15px inherit;cursor:pointer;background:var(--el);color:var(--tx);min-height:48px}
+.btn.p{background:var(--ac);color:var(--acfg)}.btn.d{background:var(--red);color:#fff}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.35;cursor:default}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+select,input{width:100%;background:var(--el);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:12px;font:15px inherit;min-height:46px}
+label{display:block;font-size:12px;color:var(--mu);margin:10px 0 4px}.back{background:none;border:0;color:var(--ac);font:700 14px inherit;cursor:pointer;padding:6px 0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ac);color:var(--acfg);padding:12px 18px;border-radius:14px;font-weight:700;z-index:9}
+.note{border:1px dashed var(--ye);border-radius:12px;padding:10px;color:var(--ye);font-size:13px;margin:8px 0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div class="w">
+<header><h1>EICHENKREUZLIGA <b>LIVE</b></h1><span class="mu" id="sync"></span></header>
+<nav id="nav"></nav><main id="app"></main></div><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NAMES=['SG Filder','CVJM Holzgerlingen','CSV Kirchheim I','Kickers Plieningen','CVJM Weissach','CSK Weinstadt','CVJM Großbottwar','EJ Malmsheim'];
+const ini=n=>n.split(' ').filter(w=>w.length>1||/[A-Z]/.test(w)).map(w=>w[0]).join('').slice(0,3);
+const pl=(t,n)=>`Demo ${ini(NAMES[t])} #${n}`;           // fiktive Demo-Spieler
+const now=Date.now(),MIN=60000;
+const mk=(id,h,a,day,o)=>({id,h,a,day,comp:'LK1 I 26/27',status:'scheduled',period:'not_started',running:0,started:null,elapsed:0,sched:now+3*864e5,fh:45,sh:45,...o});
+let S={sel:'m1',ev:[],m:[
+ mk('m1',0,1,1,{status:'live',period:'first_half',running:1,started:now-37*MIN,sched:now-38*MIN}),
+ mk('m2',2,3,1,{status:'full_time',period:'finished',elapsed:5400,sched:now-3*864e5,fin:[2,1]}),
+ mk('m3',4,5,2,{})]};
+let n=0;const E=(mid,type,team,min,p,s)=>S.ev.push({id:'e'+(++n),mid,type,team,min,p,s,rid:null});
+E('m1','kickoff',null,0);E('m1','goal',0,12,5,3);E('m1','yellow',1,25,2);E('m1','goal',1,34,5,4);
+let view='live',openId=null,tab='ticker',ctl='m1',draft={type:'goal',team:0},last={};
+// ── Spiel-Logik (entspricht dem Backend) ──
+const secs=m=>m.elapsed+(m.running?Math.max(0,Math.floor((Date.now()-m.started)/1000)):0);
+const clock=m=>{const mn=Math.floor(secs(m)/60)+1,e=m.fh+m.sh;
+ return m.period=='first_half'?(mn>m.fh?`${m.fh}+${mn-m.fh}'`:mn+"'"):m.period=='second_half'?(mn>e?`${e}+${mn-e}'`:mn+"'"):m.period=='half_time'?'HZ':m.period=='finished'?'ENDE':''};
+const score=m=>{let h=0,a=0;for(const e of S.ev)if(e.mid==m.id){const g=e.type=='goal'||e.type=='pen';
+ if(g)e.team==0?h++:a++;else if(e.type=='og')e.team==0?a++:h++}return m.fin?m.fin:[h,a]};
+const fmt=t=>new Date(t).toLocaleString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+const LAB={goal:'Tor',pen:'Elfmeter-Tor',og:'Eigentor',yellow:'Gelbe Karte',yr:'Gelb-Rot',red:'Rote Karte',sub:'Wechsel',kickoff:'Anpfiff',ht:'Halbzeit',sh:'Wiederanpfiff',ft:'Abpfiff'};
+const ICO={goal:'⚽',pen:'⚽',og:'⚽',yellow:'🟨',yr:'🟨🟥',red:'🟥',sub:'🔁',kickoff:'📣',ht:'⏸',sh:'▶',ft:'🏁'};
+function act(m,a,d){const x=secs(m),t=Date.now();
+ if(a=='start'&&m.period=='not_started'){Object.assign(m,{status:'live',period:'first_half',running:1,started:t,elapsed:0});E(m.id,'kickoff',null,0)}
+ else if(a=='pause'&&m.running)Object.assign(m,{running:0,elapsed:x});
+ else if(a=='resume'&&!m.running&&/half$/.test(m.period))Object.assign(m,{running:1,started:t});
+ else if(a=='ht'&&m.period=='first_half'){Object.assign(m,{status:'half_time',period:'half_time',running:0,elapsed:m.fh*60});E(m.id,'ht',null,m.fh)}
+ else if(a=='sh'&&m.period=='half_time'){Object.assign(m,{status:'live',period:'second_half',running:1,started:t,elapsed:m.fh*60});E(m.id,'sh',null,m.fh)}
+ else if(a=='fin'&&m.period!='not_started'&&m.period!='finished'){Object.assign(m,{status:'full_time',period:'finished',running:0,elapsed:x});E(m.id,'ft',null,Math.floor(x/60))}
+ else if(a=='adj'){m.elapsed=Math.max(0,m.elapsed+d*60);if(m.running)m.started=t;}
+ save()}
+function addEv(m){const f=$('#f');if(!f)return;const v=k=>f.elements[k]?.value,min=+v('min');
+ if(!(min>=0&&min<=200))return toast('Ungültige Minute');
+ const rid=[m.id,draft.type,draft.team,min,v('p'),v('s')].join('|');          // gegen Doppelklick
+ if(last.rid==rid&&Date.now()-last.t<4000)return toast('Schon eingetragen');
+ last={rid,t:Date.now()};E(m.id,draft.type,draft.team,min,v('p')||null,v('s')||null);save();toast((LAB[draft.type]||'Ereignis')+' eingetragen')}
+// ── Echtzeit zwischen Tabs (gleicher Browser) ──
+let bc;try{bc=new BroadcastChannel('ek-live');bc.onmessage=e=>{S=e.data;render()}}catch(e){}
+function save(){try{bc&&bc.postMessage(JSON.parse(JSON.stringify(S)))}catch(e){}render()}
+function toast(t){$('#toast').innerHTML=`<div class="toast">${esc(t)}</div>`;setTimeout(()=>$('#toast').innerHTML='',1800)}
+// ── Ansichten ──
+const logo=t=>`<span style="display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--el);font-size:11px;font-weight:800;margin:0 8px 0 0">${ini(NAMES[t])}</span>`;
+const dm=m=>m.demo!==false?'<span class="demo">DEMO</span>':'';
+function card(m){const[h,a]=score(m);const st=m.status=='live'?`<span class="live">LIVE · <span data-c="${m.id}">${clock(m)}</span></span>`:m.status=='half_time'?'<span class="live">HALBZEIT</span>':m.status=='full_time'?'<span class="mu">ENDE</span>':`<span class="mu">${fmt(m.sched)}</span>`;
+ return `<div class="card k" data-open="${m.id}"><div class="r mu"><span>${m.comp} · ${m.day}. Spieltag${dm(m)}</span>${st}</div>
+ <div class="r" style="margin-top:8px"><span class="t">${logo(m.h)}${esc(NAMES[m.h])}</span><span class="sc" id="sc${m.id}">${m.status=='scheduled'?'–':h+' : '+a}</span><span class="t a">${esc(NAMES[m.a])}${'<span style="display:inline-block;width:8px"></span>'}</span></div></div>`}
+function table(){const R=NAMES.map((n,i)=>({i,n,p:0,w:0,d:0,l:0,gf:0,ga:0}));
+ return `<div class="card"><table><tr><th>#</th><th>Mannschaft</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>TD</th><th>Pkt</th></tr>${R.sort((a,b)=>a.n.localeCompare(b.n,'de')).map((r,k)=>`<tr><td>${k+1}</td><td>${esc(r.n)}</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>`).join('')}</table></div>
+ <div class="note">Die Tabelle zählt nur bestätigte echte Ergebnisse. Demo-Spiele fließen nie ein, daher stehen hier noch Nullen.</div>`}
+function ticker(m){const evs=S.ev.filter(e=>e.mid==m.id).slice().reverse();if(!evs.length)return'<p class="mu">Noch keine Ereignisse.</p>';
+ return`<div class="tl">${evs.map(e=>{const nm=e.p?pl(e.team,e.p):'',s2=e.s?pl(e.team,e.s):'';let tx=`<b>${LAB[e.type]}</b>`+(nm?` · ${esc(nm)}`:'');
+ if(e.type=='goal'||e.type=='pen')tx+=s2?`<br><span class="mu">Vorlage: ${esc(s2)}</span>`:'';if(e.type=='sub')tx=`<b>Wechsel</b><br><span class="mu">↑ ${esc(nm)}${s2?' ↓ '+esc(s2):''}</span>`;
+ const b=`<div class="b">${ICO[e.type]} ${tx}</div>`,c=e.type=='red'||e.type=='yr'?'rd':/goal|pen|og/.test(e.type)?'g':'';
+ return`<div class="ev ${c}">${e.team===1?'<div></div>':e.team===0?b.replace('class="b"','class="b l"'):'<div></div>'}<div class="m">${e.min}'</div>${e.team===1?b:e.team===0?'<div></div>':''}</div>${e.team==null?`<div class="mu" style="text-align:center;font-size:13px;margin:-4px 0 4px">${ICO[e.type]} ${LAB[e.type]} · ${e.min}'</div>`:''}`}).join('').replace(/<div class="ev ">\s*<div><\/div><div class="m">[^<]*<\/div><div><\/div><\/div>/g,'')}</div>`}
+function stats(m){const c=(t,...ty)=>S.ev.filter(e=>e.mid==m.id&&e.team===t&&ty.includes(e.type)).length;const[h,a]=score(m);
+ const rows=[['Tore',h,a],['Gelbe Karten',c(0,'yellow','yr'),c(1,'yellow','yr')],['Rote Karten',c(0,'red'),c(1,'red')],['Wechsel',c(0,'sub'),c(1,'sub')]];
+ return rows.map(([l,x,y])=>`<div class="mu" style="text-align:center;margin-top:10px">${l}</div><div class="bar"><b>${x}</b><i><b style="width:${x+y?x/(x+y)*100:50}%"></b></i><b>${y}</b></div>`).join('')+'<p class="mu">Ballbesitz, Schüsse und Ecken fehlen in dieser Vorschau.</p>'}
+function lineup(m){const col=t=>`<div><div class="mu" style="margin-bottom:6px">${esc(NAMES[t])} · 4-4-2 ${dm(m)}</div>${[1,2,3,4,5].map(i=>`<div class="card" style="margin:4px 0;padding:8px 10px">${i} · ${esc(pl(t,i))}</div>`).join('')}</div>`;
+ return`<div class="g2">${col(m.h)}${col(m.a)}</div><p class="mu">Demo-Aufstellung mit fiktiven Spielern. Spielfeld-Grafik folgt.</p>`}
+function matchCenter(m){const[h,a]=score(m);return`<button class="back" data-back>‹ Zurück</button><div class="card"><div class="mu" style="text-align:center">${m.comp} · ${m.day}. Spieltag ${dm(m)}</div>
+ <div class="r" style="margin-top:10px"><span class="t">${logo(m.h)}${esc(NAMES[m.h])}</span><span class="sc" id="sc${m.id}">${m.status=='scheduled'?'–':h+' : '+a}</span><span class="t a">${esc(NAMES[m.a])}</span></div>
+ <div style="text-align:center;margin-top:6px">${m.status=='live'?`<span class="live">LIVE · <span data-c="${m.id}">${clock(m)}</span></span>`:`<span class="mu">${m.status=='half_time'?'HALBZEIT':m.status=='full_time'?'BEENDET':fmt(m.sched)}</span>`}</div></div>
+ <div class="g3" style="margin:8px 0">${[['ticker','Live-Ticker'],['lineup','Aufstellung'],['stats','Statistik']].map(([k,l])=>`<button class="chip ${tab==k?'on':''}" data-tab="${k}">${l}</button>`).join('')}</div>${tab=='ticker'?ticker(m):tab=='lineup'?lineup(m):stats(m)}`}
+function control(){const m=S.m.find(x=>x.id==ctl),[h,a]=score(m),p=m.period,t=draft.team,T=draft.type,two=T=='goal'||T=='pen'||T=='sub';
+ const opts=(q,sel)=>'<option value="">'+(q?'unbekannt':'–')+'</option>'+Array.from({length:11},(_,i)=>`<option value="${i+1}" ${sel==i+1?'selected':''}>#${i+1} ${esc(pl(t,i+1))}</option>`).join('');
+ return`<div class="note">Vorschau: ohne Login, Daten nur in diesem Browser. Im echten Betrieb schützt das Passwort diesen Bereich.</div>
+ <select id="sm" aria-label="Spiel">${S.m.map(x=>`<option value="${x.id}" ${x.id==ctl?'selected':''}>${esc(NAMES[x.h])} – ${esc(NAMES[x.a])}</option>`).join('')}</select>
+ <div class="card"><div class="r"><span class="t">${esc(NAMES[m.h])}</span><span class="sc" id="sc${m.id}">${h} : ${a}</span><span class="t a">${esc(NAMES[m.a])}</span></div>
+ <div style="text-align:center" class="live"><span data-c="${m.id}">${clock(m)||'Nicht gestartet'}</span></div></div>
+ <div class="g3"><button class="btn p" data-a="start" ${p!='not_started'?'disabled':''}>Anpfiff</button><button class="btn" data-a="${m.running?'pause':'resume'}" ${/^(not_started|half_time|finished)$/.test(p)?'disabled':''}>${m.running?'Pause':'Fortsetzen'}</button><button class="btn" data-a="ht" ${p!='first_half'?'disabled':''}>Halbzeit</button>
+ <button class="btn" data-a="sh" ${p!='half_time'?'disabled':''}>2. Halbzeit</button><button class="btn d" data-a="fin" ${/^(not_started|finished)$/.test(p)?'disabled':''}>Abpfiff</button><div class="g2"><button class="btn" data-adj="-1">−1′</button><button class="btn" data-adj="1">+1′</button></div></div>
+ <h2>EREIGNIS EINTRAGEN</h2><div class="g2" style="margin-bottom:8px">${[0,1].map(i=>`<button class="btn ${t==i?'p':''}" data-team="${i}">${esc(NAMES[i?m.a:m.h])}</button>`).join('')}</div>
+ <div style="display:flex;gap:6px;flex-wrap:wrap">${Object.keys({goal:1,og:1,pen:1,yellow:1,yr:1,red:1,sub:1}).map(k=>`<button class="chip ${T==k?'on':''}" data-type="${k}">${LAB[k]}</button>`).join('')}</div>
+ <form id="f" onsubmit="return false"><label>${T=='sub'?'Eingewechselt':/goal|pen/.test(T)?'Torschütze':'Spieler'}</label><select name="p">${opts(1)}</select>
+ ${two?`<label>${T=='sub'?'Ausgewechselt':'Vorlage'}</label><select name="s">${opts(1)}</select>`:''}
+ <label>Minute</label><input name="min" type="number" inputmode="numeric" min="0" max="200" value="${Math.max(0,Math.floor(secs(m)/60)+(m.period=='not_started'?0:1))}">
+ <button class="btn p" style="width:100%;margin-top:12px;font-size:17px" data-add ${m.period=='not_started'?'disabled':''}>${(LAB[T]||'').toUpperCase()} EINTRAGEN</button></form>
+ <h2>LETZTE EREIGNISSE</h2>${S.ev.filter(e=>e.mid==m.id&&e.team!=null).slice(-6).reverse().map(e=>`<div class="card r" style="padding:10px"><span>${e.min}' ${ICO[e.type]} ${LAB[e.type]} · ${esc(NAMES[e.team?m.a:m.h])}${e.p?' · #'+e.p:''}</span><button class="btn d" style="min-height:40px;padding:8px 12px" data-del="${e.id}">Löschen</button></div>`).join('')||'<p class="mu">Noch nichts eingetragen.</p>'}`}
+function render(){const m=S.m.find(x=>x.id==openId);const live=S.m.filter(x=>/^(live|half_time)$/.test(x.status));
+ $('#nav').innerHTML=[['live','Live'],['table','Tabelle'],['ctl','Control Center']].map(([k,l])=>`<button class="${view==k&&!openId?'on':''}" data-v="${k}">${l}</button>`).join('');
+ let h;
+ if(openId&&m)h=matchCenter(m);
+ else if(view=='table')h='<h2>LK1 I 26/27</h2>'+table();
+ else if(view=='ctl')h=control();
+ else h=`<h2>${live.length?`LIVE NOW · ${live.length} ${live.length>1?'SPIELE':'SPIEL'}`:'LIVE'}</h2>${live.map(card).join('')||'<div class="card"><b>Gerade rollt kein Ball.</b></div>'}
+ <h2>NÄCHSTE SPIELE</h2>${S.m.filter(x=>x.status=='scheduled').map(card).join('')||'<p class="mu">Keine anstehenden Spiele.</p>'}<h2>LETZTE ERGEBNISSE</h2>${S.m.filter(x=>x.status=='full_time').map(card).join('')||'<p class="mu">Noch keine Ergebnisse.</p>'}`;
+ const keep=document.activeElement?.tagName=='SELECT'&&document.activeElement.id=='sm';
+ if(keep)return;
+ $('#app').innerHTML=h;
+ for(const x of S.m){const s=score(x).join();const e=$('#sc'+x.id);if(e&&prev[x.id]!==undefined&&prev[x.id]!==s){e.classList.add('pop')}prev[x.id]=s}}
+const prev={};
+document.addEventListener('click',e=>{const q=s=>e.target.closest(s),g=(s,k)=>q(s)?.dataset[k];
+ if(q('[data-v]')){view=g('[data-v]','v');openId=null}else if(q('[data-open]')){openId=g('[data-open]','open');tab='ticker'}else if(q('[data-back]'))openId=null;
+ else if(q('[data-tab]'))tab=g('[data-tab]','tab');else if(q('[data-team]'))draft.team=+g('[data-team]','team');else if(q('[data-type]'))draft.type=g('[data-type]','type');
+ else if(q('[data-a]'))return act(S.m.find(x=>x.id==ctl),g('[data-a]','a'));else if(q('[data-adj]'))return act(S.m.find(x=>x.id==ctl),'adj',+g('[data-adj]','adj'));
+ else if(q('[data-add]'))return addEv(S.m.find(x=>x.id==ctl));else if(q('[data-del]')){S.ev=S.ev.filter(x=>x.id!=g('[data-del]','del'));return save()}else return;
+ render()});
+document.addEventListener('change',e=>{if(e.target.id=='sm'){ctl=e.target.value;draft.team=0;document.activeElement.blur();render()}});
+setInterval(()=>{document.querySelectorAll('[data-c]').forEach(el=>{const m=S.m.find(x=>x.id==el.dataset.c);if(m)el.textContent=clock(m)})},1000);
+$('#sync').textContent='Vorschau · DEMO-Daten';render();
+</script></body></html>
